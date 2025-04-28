@@ -52,3 +52,22 @@ func GetUsers() ([]entity.User, error) {
 
     return users, nil
 }
+
+func UpdateUser(id int, user entity.User) error {
+	stmt, err := db.Prepare("UPDATE users SET name = ?, age = ?, status = ?, location = ? WHERE id = ?")
+	if err != nil {
+		return err
+	}
+	_, err = stmt.Exec(user.Name, user.Age, user.Status, user.Location, id)
+	return err
+}
+
+func DeleteUserById(id int) error {
+	stmt, err := db.Prepare("DELETE FROM users WHERE id = ?")
+	if err != nil {
+		return err
+	}
+	_, err = stmt.Exec(id)
+	return err
+}
+
